@@ -8,7 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.devops_project.entities.ActivitySector;
 import tn.esprit.devops_project.repositories.ActivitySectorRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class ActivitySectorImplTest {
@@ -41,17 +44,56 @@ class ActivitySectorImplTest {
 
     @Test
     void retrieveAllActivitySectors() {
+
+        Long sectorId = 1L;
+        ActivitySector mockSector = new ActivitySector();
+        mockSector.setIdSecteurActivite(sectorId);
+        mockSector.setCodeSecteurActivite("code1");
+        mockSector.setLibelleSecteurActivite("Sector 1");
+
+
+        Mockito.when(activitySectorRepository.findById(sectorId)).thenReturn(Optional.of(mockSector));
+
+        ActivitySector foundSector = activitySectorService.retrieveActivitySector(sectorId);
+
+        assertNotNull(foundSector);
+        assertEquals(sectorId, foundSector.getIdSecteurActivite());
+        assertEquals("Sector 1", foundSector.getLibelleSecteurActivite());
+
     }
 
     @Test
     void deleteActivitySector() {
+        Long sectorId = 1L;
+        Mockito.doNothing().when(activitySectorRepository).deleteById(sectorId);
+
+        activitySectorService.deleteActivitySector(sectorId);
+
+        Mockito.verify(activitySectorRepository, Mockito.times(1)).deleteById(sectorId);
+
     }
 
     @Test
     void updateActivitySector() {
+        ActivitySector existingSector = new ActivitySector();
+        existingSector.setIdSecteurActivite(1L);
+        existingSector.setCodeSecteurActivite("code1");
+        existingSector.setLibelleSecteurActivite("sector 1");
+
+        ActivitySector updatedSector = new ActivitySector();
+        updatedSector.setIdSecteurActivite(1L);
+        updatedSector.setCodeSecteurActivite("Code1");
+        updatedSector.setLibelleSecteurActivite("Updated Sector");
+
+        Mockito.when(activitySectorRepository.findById(1L)).thenReturn(Optional.of(existingSector));
+        Mockito.when(activitySectorRepository.save(Mockito.any(ActivitySector.class))).thenReturn(updatedSector);
+
+        ActivitySector result = activitySectorService.updateActivitySector(updatedSector);
+
+        assertNotNull(result);
+        assertEquals("Updated Sector", result.getLibelleSecteurActivite());
+
     }
 
-    @Test
-    void retrieveActivitySector() {
-    }
+
 }
