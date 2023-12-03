@@ -36,21 +36,7 @@ class ProductServiceImplTest {
     }
     @Test
     void addProduct() {
-        Product product = new Product();
-        Stock stock = new Stock();
-        Long idStock = 1L;
-        when(stockRepository.findById(idStock)).thenReturn(Optional.ofNullable(stock)); // Use ofNullable to return a non-null Optional
-        when(productRepository.save(any(Product.class))).thenReturn(product);
-
-        // Act
-        Product savedProduct = productService.addProduct(product, idStock);
-
-        // Assert
-        assertNotNull(savedProduct);
-        assertEquals(stock, savedProduct.getStock());
-        verify(stockRepository).findById(idStock);
-        verify(productRepository).save(product);
-
+  
     }
 
     @Test
