@@ -39,7 +39,7 @@ class ProductServiceImplTest {
         Product product = new Product();
         Stock stock = new Stock();
         Long idStock = 1L;
-        when(stockRepository.findById(idStock)).thenReturn(Optional.of(stock));
+        when(stockRepository.findById(idStock)).thenReturn(Optional.ofNullable(stock)); // Use ofNullable to return a non-null Optional
         when(productRepository.save(any(Product.class))).thenReturn(product);
 
         // Act
