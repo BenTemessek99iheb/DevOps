@@ -1,27 +1,32 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
+  // This pipeline requires the following plugins:
+  // * Git: https://plugins.jenkins.io/git/
+  // * Workflow Aggregator: https://plugins.jenkins.io/workflow-aggregator/
+  // * JUnit: https://plugins.jenkins.io/junit/
+  agent 'any'
+  stages {
+    stage('Checkout') {
+      steps {
+        script {
+            checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/BenTemessek99iheb/DevOps.git']]])
         }
-
-        stage('Build and Test') {
-            steps {
-                sh 'mvn clean test'
-            }
-        }
-
+      }
     }
+    stage('Test') {
+      steps {
+        sh(script: './mvnw --batch-mode -Dmaven.test.failure.ignore=true test')
 
-    post {
-        success {
-            echo 'Build and tests succeeded BROOOOO !'
-        }
-        failure {
-            echo 'Build or tests failed!'
-        }
+      }
     }
+    stage('Package') {
+      steps {
+        sh(script: './mvnw --batch-mode package -DskipTests')
+      }
+    }
+  }
+  post {
+    always {
+      junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults : true)
+    }
+  }
 }
