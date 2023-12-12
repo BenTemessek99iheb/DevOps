@@ -5,6 +5,11 @@ pipeline {
   // * JUnit: https://plugins.jenkins.io/junit/
   agent 'any'
   stages {
+  stage('Set Script Permissions') {
+              steps {
+                  sh 'chmod +x mvnw'
+              }
+          }
     stage('Checkout') {
       steps {
         script {
