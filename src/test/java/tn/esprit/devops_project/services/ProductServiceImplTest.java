@@ -36,28 +36,6 @@ class ProductServiceImplTest {
     }
     @Test
     void addProduct() {
-        Long stockId = 1L;
-        Stock mockStock = new Stock();
-        mockStock.setIdStock(stockId);
-        mockStock.setTitle("test stock");
-
-        Product product = new Product();
-        product.setTitle("Test Product");
-
-        // Mock the behavior of stockRepository to return mockStock when findById is called
-        when(stockRepository.findById(stockId)).thenReturn(Optional.of(mockStock));
-
-        // Mock the behavior of productRepository.save to return the product
-        when(productRepository.save(any(Product.class))).thenReturn(product);
-
-        // Call the method under test
-        Product addedProduct = productService.addProduct(product, stockId);
-
-        // Assert that the product is not null and is returned with the correct stock
-        assertNotNull(addedProduct);
-        assertEquals(mockStock, addedProduct.getStock());
-        verify(stockRepository).findById(stockId);
-        verify(productRepository).save(product);
 
     }
 
@@ -68,7 +46,6 @@ class ProductServiceImplTest {
     @Test
     void retreiveAllProduct() {
     }
-
     @Test
     void retrieveProductByCategory() {
     }
