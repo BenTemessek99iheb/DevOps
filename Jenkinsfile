@@ -10,6 +10,13 @@ pipeline {
                   sh 'chmod +x mvnw'
               }
           }
+   stage('SonarQube analysis') {
+              steps {
+                  withSonarQubeEnv('My SonarQube Server') {
+                    sh 'mvn clean verify sonar:sonar'
+                          }
+                      }
+                  }
     stage('Checkout') {
       steps {
         script {
