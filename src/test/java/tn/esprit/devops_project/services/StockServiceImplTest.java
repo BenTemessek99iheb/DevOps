@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class StockServiceImplTest {
     @Autowired
     StockRepository stockRepository;
-    //etaps : 1/create a pachage under main with the same name of the artifact in our case tn.esprit.devops_project
-    // 2/ go to the service u wanna test , select the name of service and click ctrl+shift+t , it will ask u what methods u wanna test , select the method
 
     @Test
     void addStock() {

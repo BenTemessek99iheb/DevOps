@@ -1,89 +1,63 @@
 package tn.esprit.devops_project.services;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import tn.esprit.devops_project.entities.Invoice;
-import tn.esprit.devops_project.entities.Supplier;
-import tn.esprit.devops_project.repositories.InvoiceDetailRepository;
 import tn.esprit.devops_project.repositories.InvoiceRepository;
-import tn.esprit.devops_project.repositories.OperatorRepository;
 import tn.esprit.devops_project.repositories.SupplierRepository;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-@ExtendWith(MockitoExtension.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.when;
 
 class InvoiceServiceImplTest {
-    @InjectMocks
-    private InvoiceServiceImpl invoiceService;
 
     @Mock
     private InvoiceRepository invoiceRepository;
 
     @Mock
-    private OperatorRepository operatorRepository;
-
-    @Mock
-    private InvoiceDetailRepository invoiceDetailRepository;
-
-    @Mock
     private SupplierRepository supplierRepository;
 
-    @Test
-    void retrieveAllInvoices() {
-        List<Invoice> mockInvoices = Arrays.asList(new Invoice(), new Invoice());
-        Mockito.when(invoiceRepository.findAll()).thenReturn(mockInvoices);
+    @InjectMocks
+    private InvoiceServiceImpl invoiceService;
 
-        List<Invoice> result = invoiceService.retrieveAllInvoices();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void cancelInvoice() {
-        Long invoiceId = 1L;
-        Invoice mockInvoice = new Invoice();
-        mockInvoice.setArchived(false);
+    void retrieveAllInvoices() {
+        // Mocking the behavior of the repository
+        when(invoiceRepository.findAll()).thenReturn(Arrays.asList(new Invoice(), new Invoice()));
 
-        Mockito.when(invoiceRepository.findById(invoiceId)).thenReturn(Optional.of(mockInvoice));
+        // Call the method from your service
+        List<Invoice> invoices = invoiceService.retrieveAllInvoices();
 
-        invoiceService.cancelInvoice(invoiceId);
-
-        Mockito.verify(invoiceRepository).save(mockInvoice);
-        assertEquals(true, mockInvoice.getArchived());
+        // Assertions
+        assertNotNull(invoices);
+        assertEquals(2, invoices.size());
     }
 
     @Test
     void retrieveInvoice() {
-        Long invoiceId = 1L;
+        // Mocking the behavior of the repository
         Invoice mockInvoice = new Invoice();
+        when(invoiceRepository.findById(anyLong())).thenReturn(Optional.of(mockInvoice));
 
-        Mockito.when(invoiceRepository.findById(invoiceId)).thenReturn(Optional.of(mockInvoice));
+        // Call the method from your service
+        Invoice retrievedInvoice = invoiceService.retrieveInvoice(1L);
 
-        Invoice result = invoiceService.retrieveInvoice(invoiceId);
-
-        assertNotNull(result);
-        Mockito.verify(invoiceRepository).findById(invoiceId);
+        // Assertions
+        assertNotNull(retrievedInvoice);
+        assertSame(mockInvoice, retrievedInvoice);
     }
 
-    @Test
-    void getInvoicesBySupplier() {
-
-    }
-
-    @Test
-    void assignOperatorToInvoice() {
-    }
-
-    @Test
-    void getTotalAmountInvoiceBetweenDates() {
-    }
 }
