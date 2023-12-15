@@ -15,7 +15,7 @@
     <description>DevOps_Project</description>
     <properties>
         <java.version>11</java.version>
-        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.host.url>http://localhost:9002</sonar.host.url>
 
         <!-- Specify the authentication token generated in SonarQube -->
         <sonar.login>sqa_098adea203746c2445d00a8f0215455ee8eb8aa6</sonar.login>
