@@ -26,7 +26,7 @@ class StockServiceImplTest {
 
         // Then
         assertNotNull(savedStock);
-        assertNotNull(savedStock.getIdStock());
+        assertTrue(savedStock.getIdStock() > 0); // Check that idStock is greater than zero
         assertEquals("Test Stock", savedStock.getTitle());
     }
 
