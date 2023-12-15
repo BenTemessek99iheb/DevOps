@@ -15,8 +15,13 @@
     <description>DevOps_Project</description>
     <properties>
         <java.version>11</java.version>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+
+        <!-- Specify the authentication token generated in SonarQube -->
+        <sonar.login>sqa_098adea203746c2445d00a8f0215455ee8eb8aa6</sonar.login>
+
     </properties>
-    <dependencies>
+    <dependencies> 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -85,6 +90,11 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.10.0.2594</version>
             </plugin>
         </plugins>
     </build>
