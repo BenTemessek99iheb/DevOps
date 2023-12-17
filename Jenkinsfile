@@ -18,7 +18,7 @@ pipeline {
     }
     stage('SonarQube analysis') {
     steps {
-            withSonarQubeEnv('DevOps_Project') {
+            withSonarQubeEnv('Sonar') {
                 script {
                     def scannerHome = tool name: 'Maven', type: 'maven'
                     def mvnHome = tool name: 'Maven', type: 'maven'
