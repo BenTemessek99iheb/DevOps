@@ -19,8 +19,13 @@ pipeline {
     stage('SonarQube analysis') {
     steps {
             withSonarQubeEnv('Sonar') {
-                 sh './mvnw sonar:sonar -Dsonar.projectKey=Sonar -Dsonar.host.url=http://192.168.1.46:9000/ -Dsonar.login=squ_b4673ea432bf65de1c22ad3f6827268d5b084e22'
+                script {
+                    def scannerHome = tool name: 'Maven', type: 'maven'
+                    def mvnHome = tool name: 'Maven', type: 'maven'
 
+                    withEnv(["PATH+MAVEN=${mvnHome}/bin"]) {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
                 }
             }
         }
