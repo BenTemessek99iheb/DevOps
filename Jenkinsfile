@@ -46,4 +46,14 @@ pipeline {
       junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
     }
   }
+  stage('Deploy to Nexus') {
+    when {
+      branch 'main'
+    }
+    steps {
+      script {
+        sh './mvnw deploy -DskipTests --settings .m2/settings.xml'
+      }
+    }
+  }
 }
