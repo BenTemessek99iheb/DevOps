@@ -19,6 +19,14 @@ pipeline {
         sh './mvnw clean verify'
       }
     }
+    stage('Deploy to Nexus') {
+      steps {
+        script {
+          // Deploy the package to Nexus repository
+          sh './mvnw deploy -DskipTests --settings .m2/settings.xml'
+        }
+      }
+    }
     stage('SonarQube analysis') {
     steps {
             withSonarQubeEnv('Sonar') {
@@ -46,14 +54,6 @@ pipeline {
       junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
     }
   }
-  stage('Deploy to Nexus') {
-    when {
-      branch 'main'
-    }
-    steps {
-      script {
-        sh './mvnw deploy -DskipTests --settings .m2/settings.xml'
-      }
-    }
-  }
+
+
 }
