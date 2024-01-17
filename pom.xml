@@ -15,7 +15,7 @@
     <description>DevOps_Project</description>
     <properties>
         <java.version>11</java.version>
-        <sonar.host.url>http://192.168.1.94:9000</sonar.host.url>
+        <sonar.host.url>http://172.16.1.208:9000</sonar.host.url>
 
         <!-- Specify the authentication token generated in SonarQube -->
         <sonar.login>squ_b4673ea432bf65de1c22ad3f6827268d5b084e22</sonar.login>
@@ -80,7 +80,7 @@
         <repository>
             <id>deploymentRepo</id>
             <name>Nexus Repository</name>
-            <url>http://192.168.1.94:8081/repository/maven-releases/</url>
+            <url>http://192.168.1.55:8081/repository/maven-releases/</url>
         </repository>
 
     </distributionManagement>
